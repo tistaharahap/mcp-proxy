@@ -29,7 +29,14 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-config = json.load(Path(settings.config).open())
+
+if settings.config:
+    config = json.load(Path(settings.config).open())
+elif settings.config_json:
+    config = json.loads(settings.config_json)
+else:
+    raise ValueError("Either config or config_json must be provided")
+
 proxy = FastMCP.as_proxy(config, name="Bango29 MCP Proxy")
 
 
